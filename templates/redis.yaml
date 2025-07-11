@@ -1,0 +1,14 @@
+{{- /* Redis Template */ -}}
+  redis:
+    image: redis:7-alpine
+    container_name: dockenv-redis
+    restart: unless-stopped
+    ports:
+      - "{{.Port}}:6379"
+    volumes:
+      - {{.DataPath}}/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

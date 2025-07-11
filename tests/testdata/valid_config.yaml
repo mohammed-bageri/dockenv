@@ -1,0 +1,20 @@
+version: "1.0"
+services:
+  - mysql
+  - redis
+ports:
+  mysql: 3306
+  redis: 6379
+env:
+  DB_CONNECTION: "mysql"
+  DB_HOST: "127.0.0.1"
+  DB_PORT: "3306"
+  DB_DATABASE: "dockenv"
+  DB_USERNAME: "dockenv"
+  DB_PASSWORD: "password"
+  REDIS_HOST: "127.0.0.1"
+  REDIS_PORT: "6379"
+volumes:
+  mysql_data: "/home/user/.local/share/dockenv/mysql"
+  redis_data: "/home/user/.local/share/dockenv/redis"
+data_path: "/home/user/.local/share/dockenv"

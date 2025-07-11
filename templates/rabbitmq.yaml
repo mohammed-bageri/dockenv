@@ -1,0 +1,18 @@
+{{- /* RabbitMQ Template */ -}}
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: dockenv-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: dockenv
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - "{{.Port}}:5672"
+      - "15672:15672"
+    volumes:
+      - {{.DataPath}}/rabbitmq:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

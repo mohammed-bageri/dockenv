@@ -1,0 +1,8 @@
+version: "1.0"
+services:
+  - mysql
+  - invalid_service
+ports:
+  mysql: 3306
+env:
+  DB_HOST: "127.0.0.1"

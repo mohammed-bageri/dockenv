@@ -1,0 +1,26 @@
+{{- /* Kafka Template */ -}}
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: dockenv-zookeeper
+    restart: unless-stopped
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - {{.DataPath}}/zookeeper:/var/lib/zookeeper/data
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: dockenv-kafka
+    restart: unless-stopped
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:{{.Port}}
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "{{.Port}}:9092"
+    volumes:
+      - {{.DataPath}}/kafka:/var/lib/kafka/data

@@ -1,0 +1,18 @@
+{{- /* MongoDB Template */ -}}
+  mongodb:
+    image: mongo:7
+    container_name: dockenv-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dockenv
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: dockenv
+    ports:
+      - "{{.Port}}:27017"
+    volumes:
+      - {{.DataPath}}/mongodb:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

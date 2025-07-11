@@ -1,0 +1,18 @@
+{{- /* PostgreSQL Template */ -}}
+  postgres:
+    image: postgres:15
+    container_name: dockenv-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: dockenv
+      POSTGRES_USER: dockenv
+      POSTGRES_PASSWORD: password
+    ports:
+      - "{{.Port}}:5432"
+    volumes:
+      - {{.DataPath}}/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dockenv"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

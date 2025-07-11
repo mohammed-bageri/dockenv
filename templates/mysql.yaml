@@ -1,0 +1,18 @@
+{{- /* MySQL Template */ -}}
+  mysql:
+    image: mysql:8.0
+    container_name: dockenv-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dockenv
+      MYSQL_USER: dockenv
+      MYSQL_PASSWORD: password
+    ports:
+      - "{{.Port}}:3306"
+    volumes:
+      - {{.DataPath}}/mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
